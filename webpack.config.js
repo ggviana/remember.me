@@ -6,6 +6,7 @@ const pkg                = require('./package')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ExtractTextPlugin  = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin  = require('html-webpack-plugin')
+const OfflinePlugin      = require('offline-plugin')
 
 const TARGET = process.env.npm_lifecycle_event
 
@@ -88,6 +89,16 @@ if(TARGET === 'build') {
     plugins: [
       new CleanWebpackPlugin([PATHS.build]),
       new ExtractTextPlugin('[name].[chunkhash].css'),
+      new OfflinePlugin({
+        version: pkg.version,
+        AppCache: false,
+        ServiceWorker: {
+          output: 'service-worker.js'
+        },
+      }),
+      new webpack.DefinePlugin({
+        "process.env.NODE_ENV": '"production"'
+      }),
       new webpack.optimize.CommonsChunkPlugin({
         names: ['vendor']
       }),
@@ -103,7 +114,7 @@ if(TARGET === 'build') {
           test: /\.css$/,
           loader: ExtractTextPlugin.extract(
             'style',
-            'css?-minimize&modules&importLoaders=1&localIdentName=[hash:base64:5]'
+            'css?modules&importLoaders=1&localIdentName=[hash:base64:5]'
           ),
         },
       ]
