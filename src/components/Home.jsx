@@ -1,10 +1,10 @@
 import memory from 'lib/memory'
 
+import 'normalize.css'
+import 'styles/Home.css'
+
 import Form   from 'components/Form'
 import List   from 'components/List'
-
-import 'normalize.css'
-import 'styles/Home'
 
 export default React.createClass({
   getInitialState () {

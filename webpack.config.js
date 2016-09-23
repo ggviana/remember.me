@@ -1,8 +1,11 @@
 const webpack            = require('webpack')
 const merge              = require('webpack-merge')
 const path               = require('path')
+const pkg                = require('./package')
 
 const CleanWebpackPlugin = require('clean-webpack-plugin')
+const ExtractTextPlugin  = require('extract-text-webpack-plugin')
+const HtmlWebpackPlugin  = require('html-webpack-plugin')
 
 const TARGET = process.env.npm_lifecycle_event
 
@@ -30,9 +33,13 @@ const common = {
   },
   output: {
     path: PATHS.build,
-    filename: '/bundle.js',
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[chunkhash].js'
   },
   plugins: [
+    new HtmlWebpackPlugin({
+      title: 'Remember me'
+    }),
     new webpack.ProvidePlugin({
       React: 'react',
     }),
@@ -75,13 +82,31 @@ if(TARGET === 'start' || !TARGET) {
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
+    entry: {
+      vendor: Object.keys(pkg.dependencies)
+    },
     plugins: [
       new CleanWebpackPlugin([PATHS.build]),
+      new ExtractTextPlugin('[name].[chunkhash].css'),
+      new webpack.optimize.CommonsChunkPlugin({
+        names: ['vendor']
+      }),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false
         }
       }),
-    ]
+    ],
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loader: ExtractTextPlugin.extract(
+            'style',
+            'css?-minimize&modules&importLoaders=1&localIdentName=[hash:base64:5]'
+          ),
+        },
+      ]
+    },
   })
 }

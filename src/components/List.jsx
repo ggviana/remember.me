@@ -1,4 +1,4 @@
-import style from 'styles/List'
+import style from 'styles/List.css'
 
 export default ({items, remove}) => {
   return items.length ? (

@@ -1,4 +1,4 @@
-import style from 'styles/Form'
+import style from 'styles/Form.css'
 
 export default ({add}) => {
 
