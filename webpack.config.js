@@ -1,7 +1,8 @@
 const webpack            = require('webpack')
 const merge              = require('webpack-merge')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
 const path               = require('path')
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const TARGET = process.env.npm_lifecycle_event
 
@@ -60,14 +61,27 @@ if(TARGET === 'start' || !TARGET) {
     },
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
-    ]
+    ],
+    module: {
+      loaders: [
+        {
+          test: /\.css$/,
+          loaders: ['style', 'css'],
+        },
+      ]
+    },
   })
 }
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
     plugins: [
-      new CleanWebpackPlugin([PATHS.build])
+      new CleanWebpackPlugin([PATHS.build]),
+      new webpack.optimize.UglifyJsPlugin({
+        compress: {
+          warnings: false
+        }
+      }),
     ]
   })
 }

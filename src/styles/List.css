@@ -1,0 +1,24 @@
+:local(.list) {
+  list-style: none;
+  padding: 0;
+}
+
+:local(.list_container) {
+  display: flex;
+  justify-content: center;
+}
+
+:local(.list_item) {
+  padding: 20px 0;
+}
+
+:local(.list_item_remove) {
+  cursor: pointer;
+  font-weight: bold;
+  padding: 10px;
+}
+
+:local(.list_item_link) {
+  color: #fff;
+  text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);
+}
