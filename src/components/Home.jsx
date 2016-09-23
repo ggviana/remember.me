@@ -28,12 +28,12 @@ export default React.createClass({
 
   render () {
     return (
-      <div>
+      <main>
         <h1>What you want me to remember</h1>
         <Form add={this.add} />
         <h2>This is what I have in my memory</h2>
         <List items={this.state.items} remove={this.remove} />
-      </div>
+      </main>
     )  
   }
 })
