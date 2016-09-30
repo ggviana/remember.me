@@ -39,7 +39,8 @@ const common = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Remember me'
+      title: 'Remember me',
+      template: 'src/index.ejs'
     }),
     new webpack.ProvidePlugin({
       React: 'react',
